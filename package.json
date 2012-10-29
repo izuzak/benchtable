@@ -1,0 +1,38 @@
+{
+  "name": "benchtable",
+  "preferGlobal": "false",
+  "version": "0.0.1",
+  "author": "Ivan Zuzak <izuzak@gmail.com> (http://ivanzuzak.info)",
+  "description": "Benchmarkjs results in ascii tables for nodejs",
+  "bugs" : "https://github.com/izuzak/benchtable/issues",
+  "homepage" : "https://github.com/izuzak/benchtable",
+  "scripts": {
+    "test": "jasmine-node ./test/*"
+  },
+  "main": "./benchtable.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/izuzak/benchtable.git"
+  },
+  "keywords": [
+    "nodejs",
+    "benchmarking",
+    "performance",
+    "table",
+    "colors",
+    "javascript"
+  ],
+  "dependencies" : {
+    "benchmark" : ">=1.0.0",
+    "cli-table" : ">=0.0.2"
+  },
+  "licenses": [
+    {
+      "type" : "Apache-2.0",
+      "url" : "https://raw.github.com/izuzak/benchtable/master/LICENSE"
+    }
+  ],
+  "engines": {
+    "node" : ">=0.6.10"
+  }
+}

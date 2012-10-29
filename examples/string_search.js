@@ -1,5 +1,7 @@
+// import module
 var BenchTable = require('./../benchtable.js'); //require('benchtable');
 
+// create benchtable suite
 var suite = new BenchTable();
 
 // add functions for benchmarking

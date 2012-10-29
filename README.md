@@ -88,7 +88,11 @@ This is the Benchtable version of the example from the [Benchmark.js homepage](h
 Also available in the [examples directory](https://github.com/izuzak/benchtable/examples/string_search.js).
 
 ```javascript
-var suite = new BenchTable();
+// import module
+var Benchtable = require('benchtable');
+
+// create benchtable suite
+var suite = new Benchtable();
 
 // add functions
 suite.addFunction('RegExp#test', function(s) { /o/.test(s) })

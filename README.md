@@ -5,7 +5,7 @@ Benchtable is a NodeJS module which provides an easy way to run performance test
 This is useful for situations when you are:
 
 * evaluating the performance of a single function for a range of inputs (e.g. of different size)
-* comparing the performance of a set of functions for a specific input (e.g. different implementations of same functionallity)
+* comparing the performance of a set of functions for a specific input (e.g. different implementations of same functionality)
 * comparing the performance of a set of functions for the same set of inputs
 
 Benchtable is not a new JavaScript benchmarking framework -- it extends the already excellent [benchmark.js](https://github.com/bestiejs/benchmark.js) framework. 

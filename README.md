@@ -136,6 +136,15 @@ Produces output:
     | String#indexOf | 8,976,449 ops/sec | 6,360,103 ops/sec | 979,404 ops/sec  | 11,266 ops/sec        |
     +----------------+-------------------+-------------------+------------------+-----------------------+
 
+## Contributing
+
+* Fork and clone repo: `https://github.com/izuzak/benchtable`
+* Change dir to benchtable: `cd benchtable`
+* Install dependencies: `npm install benchmark cli-table`
+* Make changes to benchtable source (`./benchtable.js`), or examples (`./examples`)
+* Commit, push and [make pull request](https://github.com/izuzak/benchtable/pull/new/master). I will also accept patches sent by e-mail.
+* E-mail me if you have questions.
+
 ## Credits
 
 Benchtable is developed by [Ivan Zuzak](http://ivanzuzak.info) &lt;izuzak@gmail.com&gt;.

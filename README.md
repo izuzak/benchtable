@@ -8,7 +8,7 @@ This is useful for situations when you are:
 * comparing the performance of a set of functions for a specific input (e.g. different implementations of same functionality)
 * comparing the performance of a set of functions for the same set of inputs
 
-Benchtable is not a new JavaScript benchmarking framework -- it extends the already excellent [benchmark.js](https://github.com/bestiejs/benchmark.js) framework. 
+Benchtable is not a new JavaScript benchmarking framework -- it extends the already excellent [benchmark.js](https://github.com/bestiejs/benchmark.js) framework.
 Benchmarks are executed using benchmark.js and displayed using [cli-table](https://github.com/LearnBoost/cli-table).
 
 ![Screenshot](https://raw.github.com/izuzak/benchtable/master/screenshot.png)
@@ -22,7 +22,7 @@ Benchmarks are executed using benchmark.js and displayed using [cli-table](https
 
 ## Installation
 
-```bash    
+```bash
 npm install benchtable
 ```
 
@@ -41,6 +41,7 @@ Benchtable(name, options);
 ```
 
 * `name` (string), `options` (object) -- [see benchmark.js API docs](http://benchmarkjs.com/docs#Suite)
+* a special boolean option `isTransposed` is available for Benchtable - if set to `true`, the output ascii table will be transposed: the benchmarked functions will be organized into columns, while inputs will be organized into rows. This is useful for situations where the number of inputs is large, and the number of function is small. This option defaults to `false`.
 
 **Specify functions to be benchmarked**
 
@@ -117,7 +118,7 @@ suite.addFunction('RegExp#test', function(s) { /o/.test(s) })
 .run({ 'async': false });
 ```
 
-Produces output:
+When executed as `node ./examples/string_search.js`, the script produces output:
 
     RegExp#test for params Short string x 6,543,445 ops/sec ±0.48% (98 runs sampled)
     RegExp#test for params Long string x 5,059,970 ops/sec ±0.28% (98 runs sampled)
@@ -136,11 +137,34 @@ Produces output:
     | String#indexOf | 8,976,449 ops/sec | 6,360,103 ops/sec | 979,404 ops/sec  | 11,266 ops/sec        |
     +----------------+-------------------+-------------------+------------------+-----------------------+
 
+If the Benchtable object is initialized with the `{isTransposed : true}` option (see [this example](https://github.com/izuzak/benchtable/examples/string_search_transposed.js)), the script produces the same output but with rows and columns transposed:
+
+    RegExp#test for inputs Short string x 7,011,480 ops/sec ±0.69% (91 runs sampled)
+    RegExp#test for inputs Long string x 4,720,734 ops/sec ±2.53% (91 runs sampled)
+    RegExp#test for inputs Very long string x 952,009 ops/sec ±0.88% (97 runs sampled)
+    RegExp#test for inputs Extremely long string x 11,542 ops/sec ±0.28% (98 runs sampled)
+    String#indexOf for inputs Short string x 9,494,499 ops/sec ±0.45% (93 runs sampled)
+    String#indexOf for inputs Long string x 6,686,112 ops/sec ±0.41% (101 runs sampled)
+    String#indexOf for inputs Very long string x 984,418 ops/sec ±1.10% (97 runs sampled)
+    String#indexOf for inputs Extremely long string x 11,136 ops/sec ±1.14% (97 runs sampled)
+    Fastest is String#indexOf for inputs Short string
+    +-----------------------+-------------------+-------------------+
+    |                       | RegExp#test       | String#indexOf    |
+    +-----------------------+-------------------+-------------------+
+    | Short string          | 7,011,480 ops/sec | 9,494,499 ops/sec |
+    +-----------------------+-------------------+-------------------+
+    | Long string           | 4,720,734 ops/sec | 6,686,112 ops/sec |
+    +-----------------------+-------------------+-------------------+
+    | Very long string      | 952,009 ops/sec   | 984,418 ops/sec   |
+    +-----------------------+-------------------+-------------------+
+    | Extremely long string | 11,542 ops/sec    | 11,136 ops/sec    |
+    +-----------------------+-------------------+-------------------+
+
 ## Contributing
 
 * Fork and clone repo: `https://github.com/izuzak/benchtable`
 * Change dir to benchtable: `cd benchtable`
-* Install dependencies: `npm install benchmark cli-table`
+* Install dependencies: `npm install`
 * Make changes to benchtable source (`./benchtable.js`), or examples (`./examples`)
 * Commit, push and [make pull request](https://github.com/izuzak/benchtable/pull/new/master). I will also accept patches sent by e-mail.
 * E-mail me if you have questions.

@@ -19,11 +19,14 @@ function BenchTable(name, options) {
   self._inputs = [];
   self._inputNames = [];
 
+  self._results = {};
+
   // mappings from benchmark names to function and input indices
   // as { funcIdx, inputIdx }
   self._mappings = {};
 
-  self._results = {};
+  // if transposed, then functions are in columns and inputs are in rows
+  self._transposed = options && options.isTransposed;
 
   /**
    * Use the 'cycle' event to store results and build a table
@@ -35,7 +38,7 @@ function BenchTable(name, options) {
     var self = this;
     var worst_idx, best_idx, worst, best, curr;
     var i, j;
-    var funName, item;
+    var funName, inputName, item;
 
     if (!(key in self._mappings)) {
       return;
@@ -64,7 +67,7 @@ function BenchTable(name, options) {
           worst = self._results[self._functionNames[worst_idx]][i];
         }
 
-        if (curr.hz >= worst.hz) {
+        if (curr.hz >= best.hz) {
           best_idx = j;
           best = self._results[self._functionNames[best_idx]][i];
         }
@@ -74,28 +77,6 @@ function BenchTable(name, options) {
       best._isBest = true;
     }
 
-    // create cli-table based on results
-    self.table = new Table({
-      head: [""].concat(self._inputNames),
-       chars: {
-         'top': '-',
-         'top-mid': '+',
-         'top-left': '+',
-         'top-right': '+',
-         'bottom': '-',
-         'bottom-mid': '+',
-         'bottom-left': '+',
-         'bottom-right': '+',
-         'left': '|',
-         'left-mid': '+',
-         'mid': '-',
-         'mid-mid': '+',
-         'right': '|',
-         'right-mid': '+'
-       },
-       truncate: '…'
-    });
-
     function toTableStr(par) {
       if (par.error) {
         return 'ERROR';
@@ -104,24 +85,64 @@ function BenchTable(name, options) {
       }
     }
 
-    for (i=0; i<self._functions.length; i++) {
-      item = {};
-      funName = self._functionNames[i];
-      item[funName] = [];
+    // create cli-table based on results
+    var headers = self._transposed ? [""].concat(self._functionNames) : [""].concat(self._inputNames);
 
-      for (j=0; j<self._results[funName].length; j++) {
-        item[funName].push(toTableStr(self._results[funName][j]));
+    self.table = new Table({
+      head: headers,
+       chars: {
+         'top': '-', 'top-mid': '+', 'top-left': '+', 'top-right': '+',
+         'bottom': '-', 'bottom-mid': '+', 'bottom-left': '+', 'bottom-right': '+',
+         'left': '|', 'left-mid': '+',
+         'mid': '-', 'mid-mid': '+',
+         'right': '|', 'right-mid': '+'
+       },
+       truncate: '…'
+    });
 
-        if (self._functions.length > 1) {
-          if (self._results[funName][j]._isWorst) {
-            item[funName][j] = item[funName][j].red;
-          } else if (self._results[funName][j]._isBest) {
-            item[funName][j] = item[funName][j].green;
+    if (!self._transposed) {
+      for (i=0; i<self._functions.length; i++) {
+        item = {};
+        funName = self._functionNames[i];
+        item[funName] = [];
+
+        for (j=0; j<self._results[funName].length; j++) {
+          curr = self._results[funName][j];
+          item[funName].push(toTableStr(curr));
+
+          if (self._functions.length > 1) {
+            if (curr._isWorst) {
+              item[funName][j] = item[funName][j].red;
+            } else if (curr._isBest) {
+              item[funName][j] = item[funName][j].green;
+            }
           }
         }
-      }
 
-      self.table.push(item);
+        self.table.push(item);
+      }
+    } else {
+      for (i=0; i<self._inputs.length; i++) {
+        item = {};
+        inputName = self._inputNames[i];
+        item[inputName] = [];
+
+        for (j=0; j<self._functionNames.length; j++) {
+          funName = self._functionNames[j];
+          curr = self._results[funName][i];
+          item[inputName].push(toTableStr(curr));
+
+          if (self._functions.length > 1) {
+            if (curr._isWorst) {
+              item[inputName][j] = item[inputName][j].red;
+            } else if (curr._isBest) {
+              item[inputName][j] = item[inputName][j].green;
+            }
+          }
+        }
+
+        self.table.push(item);
+      }
     }
   });
 }
@@ -187,4 +208,4 @@ BenchTable.prototype.addInput = function(name, input) {
  */
 
 module.exports = BenchTable;
-module.exports.version = '0.0.1';
+module.exports.version = '0.0.2';

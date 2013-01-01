@@ -2,7 +2,7 @@
 var BenchTable = require('./../benchtable.js'); //require('benchtable');
 
 // create benchtable suite
-var suite = new BenchTable();
+var suite = new BenchTable("test", {isTransposed : true});
 
 // add functions for benchmarking
 suite.addFunction('RegExp#test', function(s) { /o/.test(s) })

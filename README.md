@@ -162,12 +162,7 @@ If the Benchtable object is initialized with the `{isTransposed : true}` option 
 
 ## Contributing
 
-* Fork and clone repo: `https://github.com/izuzak/benchtable`
-* Change dir to benchtable: `cd benchtable`
-* Install dependencies: `npm install`
-* Make changes to benchtable source (`./benchtable.js`), or examples (`./examples`)
-* Commit, push and [make pull request](https://github.com/izuzak/benchtable/pull/new/master). I will also accept patches sent by e-mail.
-* E-mail me if you have questions.
+Want to contribute to this project? See information [here](https://github.com/izuzak/benchtable/blob/master/CONTRIBUTING.md).
 
 ## Credits
 

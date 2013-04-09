@@ -162,7 +162,7 @@ If the Benchtable object is initialized with the `{isTransposed : true}` option 
 
 ## Contributing
 
-Want to contribute to this project? See information [here](https://github.com/izuzak/benchtable/blob/master/CONTRIBUTING.md).
+Want to contribute to this project? See information [here](CONTRIBUTING.md).
 
 ## Credits
 

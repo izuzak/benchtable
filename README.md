@@ -28,7 +28,7 @@ npm install benchtable
 
 ## API and usage
 
-Benchtable is a subclass of the benchmark.js's [Benchamrk.Suite](http://benchmarkjs.com/docs#Suite) class - all functions exposed by `Benchmark.Suite` are also provided by Benchtable and therefore a Benchtable object may be used like an ordinary `Benchmark.Suite`.
+Benchtable is a subclass of the benchmark.js's [Benchmark.Suite](http://benchmarkjs.com/docs#Suite) class - all functions exposed by `Benchmark.Suite` are also provided by Benchtable and therefore a Benchtable object may be used like an ordinary `Benchmark.Suite`.
 
 The `Benchmark.Suite.prototype.add` method can be used to add functions to be benchmarked, and while such functions will indeed be benchmarked with Benchtable -- their results will not be shown in the results ascii table.
 
@@ -120,14 +120,14 @@ suite.addFunction('RegExp#test', function(s) { /o/.test(s) })
 
 When executed as `node ./examples/string_search.js`, the script produces output:
 
-    RegExp#test for params Short string x 6,543,445 ops/sec ±0.48% (98 runs sampled)
-    RegExp#test for params Long string x 5,059,970 ops/sec ±0.28% (98 runs sampled)
-    RegExp#test for params Very long string x 950,524 ops/sec ±0.44% (98 runs sampled)
-    RegExp#test for params Extremely long string x 11,309 ops/sec ±0.42% (99 runs sampled)
-    String#indexOf for params Short string x 8,976,449 ops/sec ±0.34% (99 runs sampled)
-    String#indexOf for params Long string x 6,360,103 ops/sec ±0.29% (99 runs sampled)
-    String#indexOf for params Very long string x 979,404 ops/sec ±0.40% (100 runs sampled)
-    String#indexOf for params Extremely long string x 11,266 ops/sec ±0.39% (98 runs sampled)
+    RegExp#test for params Short string x 6,543,445 ops/sec ï¿½0.48% (98 runs sampled)
+    RegExp#test for params Long string x 5,059,970 ops/sec ï¿½0.28% (98 runs sampled)
+    RegExp#test for params Very long string x 950,524 ops/sec ï¿½0.44% (98 runs sampled)
+    RegExp#test for params Extremely long string x 11,309 ops/sec ï¿½0.42% (99 runs sampled)
+    String#indexOf for params Short string x 8,976,449 ops/sec ï¿½0.34% (99 runs sampled)
+    String#indexOf for params Long string x 6,360,103 ops/sec ï¿½0.29% (99 runs sampled)
+    String#indexOf for params Very long string x 979,404 ops/sec ï¿½0.40% (100 runs sampled)
+    String#indexOf for params Extremely long string x 11,266 ops/sec ï¿½0.39% (98 runs sampled)
     Fastest is String#indexOf for params Short string
     +----------------+-------------------+-------------------+------------------+-----------------------+
     |                | Short string      | Long string       | Very long string | Extremely long string |
@@ -139,14 +139,14 @@ When executed as `node ./examples/string_search.js`, the script produces output:
 
 If the Benchtable object is initialized with the `{isTransposed : true}` option (see [this example](https://github.com/izuzak/benchtable/examples/string_search_transposed.js)), the script produces the same output but with rows and columns transposed:
 
-    RegExp#test for inputs Short string x 7,011,480 ops/sec ±0.69% (91 runs sampled)
-    RegExp#test for inputs Long string x 4,720,734 ops/sec ±2.53% (91 runs sampled)
-    RegExp#test for inputs Very long string x 952,009 ops/sec ±0.88% (97 runs sampled)
-    RegExp#test for inputs Extremely long string x 11,542 ops/sec ±0.28% (98 runs sampled)
-    String#indexOf for inputs Short string x 9,494,499 ops/sec ±0.45% (93 runs sampled)
-    String#indexOf for inputs Long string x 6,686,112 ops/sec ±0.41% (101 runs sampled)
-    String#indexOf for inputs Very long string x 984,418 ops/sec ±1.10% (97 runs sampled)
-    String#indexOf for inputs Extremely long string x 11,136 ops/sec ±1.14% (97 runs sampled)
+    RegExp#test for inputs Short string x 7,011,480 ops/sec ï¿½0.69% (91 runs sampled)
+    RegExp#test for inputs Long string x 4,720,734 ops/sec ï¿½2.53% (91 runs sampled)
+    RegExp#test for inputs Very long string x 952,009 ops/sec ï¿½0.88% (97 runs sampled)
+    RegExp#test for inputs Extremely long string x 11,542 ops/sec ï¿½0.28% (98 runs sampled)
+    String#indexOf for inputs Short string x 9,494,499 ops/sec ï¿½0.45% (93 runs sampled)
+    String#indexOf for inputs Long string x 6,686,112 ops/sec ï¿½0.41% (101 runs sampled)
+    String#indexOf for inputs Very long string x 984,418 ops/sec ï¿½1.10% (97 runs sampled)
+    String#indexOf for inputs Extremely long string x 11,136 ops/sec ï¿½1.14% (97 runs sampled)
     Fastest is String#indexOf for inputs Short string
     +-----------------------+-------------------+-------------------+
     |                       | RegExp#test       | String#indexOf    |

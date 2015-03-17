@@ -1,11 +1,11 @@
 {
   "name": "benchtable",
   "preferGlobal": false,
-  "version": "0.0.3",
+  "version": "0.0.4",
   "author": "Ivan Zuzak <izuzak@gmail.com> (http://ivanzuzak.info)",
   "description": "Benchmark.js results in ascii tables for NodeJS",
-  "bugs" : "https://github.com/izuzak/benchtable/issues",
-  "homepage" : "https://github.com/izuzak/benchtable",
+  "bugs": "https://github.com/izuzak/benchtable/issues",
+  "homepage": "https://github.com/izuzak/benchtable",
   "scripts": {
     "test": "jasmine-node ./test/*"
   },
@@ -22,17 +22,17 @@
     "colors",
     "javascript"
   ],
-  "dependencies" : {
-    "benchmark" : "~1.0.0",
-    "cli-table" : "=0.3.0"
+  "dependencies": {
+    "benchmark": "~1.0.0",
+    "cli-table": "=0.3.0"
   },
   "licenses": [
     {
-      "type" : "Apache-2.0",
-      "url" : "https://raw.github.com/izuzak/benchtable/master/LICENSE"
+      "type": "Apache-2.0",
+      "url": "https://raw.github.com/izuzak/benchtable/master/LICENSE"
     }
   ],
   "engines": {
-    "node" : ">=0.6.10"
+    "node": ">=0.6.10"
   }
 }

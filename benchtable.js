@@ -16,6 +16,7 @@ function BenchTable(name, options) {
 
   self._functions = [];
   self._functionNames = [];
+  self._functionOptions = [];
   self._inputs = [];
   self._inputNames = [];
 
@@ -160,7 +161,12 @@ BenchTable.prototype = Object.create(Benchmark.Suite.prototype);
 BenchTable.prototype.run = function(config) {
   var self = this, mapkey, mapfun;
 
-  function createBenchmarkFunction(fun, input) {
+  function createBenchmarkFunction(fun, options, input) {
+    if (options.defer) {
+      return function (deferred) {
+        fun.apply(self, [deferred].concat(input))
+      }
+    }
     return function() {
       fun.apply(self, input);
     };
@@ -169,8 +175,8 @@ BenchTable.prototype.run = function(config) {
   for (var i=0; i<self._functions.length; i++) {
     for (var j=0; j<self._inputs.length; j++) {
       mapkey = self._functionNames[i] + " for inputs " + self._inputNames[j];
-      mapfun = createBenchmarkFunction(self._functions[i], self._inputs[j]);
-      self.add(mapkey, mapfun);
+      mapfun = createBenchmarkFunction(self._functions[i], self._functionOptions[i], self._inputs[j]);
+      self.add(mapkey, mapfun, self._functionOptions[i]);
       self._mappings[mapkey] = { funcIdx : i, inputIdx : j };
     }
   }
@@ -184,9 +190,10 @@ BenchTable.prototype.run = function(config) {
  * Add a function which should be evaluated.
  */
 
-BenchTable.prototype.addFunction = function(name, fun) {
+BenchTable.prototype.addFunction = function(name, fun, options) {
   this._functions.push(fun);
   this._functionNames.push(name);
+  this._functionOptions.push(options || {});
   this._results[name] = [];
 
   return this;

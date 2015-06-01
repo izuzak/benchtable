@@ -1,7 +1,7 @@
 {
   "name": "benchtable",
   "preferGlobal": false,
-  "version": "0.0.4",
+  "version": "0.0.5",
   "author": "Ivan Zuzak <izuzak@gmail.com> (http://ivanzuzak.info)",
   "description": "Benchmark.js results in ascii tables for NodeJS",
   "bugs": "https://github.com/izuzak/benchtable/issues",

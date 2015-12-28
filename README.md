@@ -96,7 +96,7 @@ var Benchtable = require('benchtable');
 var suite = new Benchtable();
 
 // add functions
-suite.addFunction('RegExp#test', function(s) { /o/.test(s) })
+suite.addFunction('RegExp#test', function(s) { /o/.test(s); })
 .addFunction('String#indexOf', function(s) {s.indexOf('o') > -1;})
 
 // add inputs

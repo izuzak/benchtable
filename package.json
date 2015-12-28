@@ -4,15 +4,14 @@
   "version": "0.0.5",
   "author": "Ivan Zuzak <izuzak@gmail.com> (http://ivanzuzak.info)",
   "description": "Benchmark.js results in ascii tables for NodeJS",
-  "bugs": "https://github.com/izuzak/benchtable/issues",
-  "homepage": "https://github.com/izuzak/benchtable",
-  "scripts": {
-    "test": "jasmine-node ./test/*"
+  "bugs": {
+    "url": "https://github.com/izuzak/benchtable/issues"
   },
+  "homepage": "https://github.com/izuzak/benchtable",
   "main": "./benchtable.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/izuzak/benchtable.git"
+    "url": "git+https://github.com/izuzak/benchtable.git"
   },
   "keywords": [
     "nodejs",
@@ -34,5 +33,12 @@
   ],
   "engines": {
     "node": ">=0.6.10"
-  }
+  },
+  "directories": {
+    "example": "examples"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "license": "Apache-2.0"
 }

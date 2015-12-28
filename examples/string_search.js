@@ -1,5 +1,5 @@
 // import module
-var BenchTable = require('../benchtable.js'); //require('benchtable');
+var BenchTable = require('../'); //require('benchtable');
 
 // create benchtable suite
 var suite = new BenchTable();

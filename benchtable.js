@@ -215,4 +215,4 @@ BenchTable.prototype.addInput = function(name, input) {
  */
 
 module.exports = BenchTable;
-module.exports.version = '0.0.2';
+module.exports.version = '0.0.6';

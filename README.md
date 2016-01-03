@@ -22,7 +22,7 @@ Benchmarks are executed using benchmark.js and displayed using [cli-table](https
 
 ## Installation
 
-```bash
+```sh
 npm i --save benchtable
 ```
 
@@ -89,7 +89,7 @@ invoking functions, they will not receive a single array argument).
 Get results table.
 
 After all benchmarks are finished, the `complete` event is fired and the `cli-table` table instance with the results is
-available through the `Benchtable.prototype.table` property.
+available through the `BenchTable.prototype.table` property.
 
 The ASCII string serialization of the table is obtained by calling `.toString()` on that object.
 
@@ -101,108 +101,114 @@ suite.on('complete', () => {
 });
 ```
 
-## Example
+## Examples
 
 This is the Benchtable version of the example from the [Benchmark.js homepage](http://benchmarkjs.com).
 Also available in the [examples directory](/examples/string_search.js).
 
+### Default behavior
+
 ```js
-// import module
+// Import module
 var BenchTable = require('benchtable'); //require('benchtable');
 
-// create benchtable suite
+// Create benchtable suite
 var suite = new BenchTable();
 
-// add functions for benchmarking
-suite.addFunction('RegExp#test', function(s) { /o/.test(s) })
-.addFunction('String#indexOf', function(s) {s.indexOf('o') > -1;})
+suite
+    // Add functions for benchmarking
+    .addFunction('RegExp#test', s => /o/.test(s))
+    .addFunction('String#indexOf', s => s.indexOf('o') > -1)
+    // Add inputs
+    .addInput('Short string', ['Hello world!'])
+    .addInput('Long string', ['This is a very big string, isnt it? It is. Really. So, hello world!'])
+    .addInput('Very long string', [`This is a ${new Array(100).join("very ")} + 'big string, isnt it? It is. ${new Array(100).join("Really. ")} So, hello world!`])
+    .addInput('Extremely long string', [`This is a ${new Array(10000).join("very ")} + 'big string, isnt it? It is. ${new Array(10000).join("Really. ")} So, hello world!`])
+    // Add listeners
+    .on('cycle', event => {
+      console.log(event.target.toString());
+    })
+    .on('complete', () => {
+      console.log('Fastest is ' + suite.filter('fastest').pluck('name'));
+      console.log(suite.table.toString());
+    })
+    // Run async
+    .run({ 'async': false })
+    ;
 
-// add inputs
-.addInput('Short string', ['Hello world!'])
-.addInput('Long string', ['This is a very big string, isnt it? It is. Really. So, hello world!'])
-.addInput('Very long string', ['This is a ' + new Array(100).join("very ") + 'big string, isnt it? It is. ' + new Array(100).join("Really. ") + 'So, hello world!'])
-.addInput('Extremely long string', ['This is a ' + new Array(10000).join("very ") + 'big string, isnt it? It is. ' + new Array(10000).join("Really. ") + 'So, hello world!'])
-
-// add listeners
-.on('cycle', function(event) {
-  console.log(String(event.target));
-})
-.on('complete', function() {
-  console.log('Fastest is ' + this.filter('fastest').pluck('name'));
-  console.log(this.table.toString());
-})
-
-// run async
-.run({ 'async': false });
-
-/*
-
-Produces output:
-
-  RegExp#test for params Short string x 6,543,445 ops/sec ±0.48% (98 runs sampled)
-  RegExp#test for params Long string x 5,059,970 ops/sec ±0.28% (98 runs sampled)
-  RegExp#test for params Very long string x 950,524 ops/sec ±0.44% (98 runs sampled)
-  RegExp#test for params Extremely long string x 11,309 ops/sec ±0.42% (99 runs sampled)
-  String#indexOf for params Short string x 8,976,449 ops/sec ±0.34% (99 runs sampled)
-  String#indexOf for params Long string x 6,360,103 ops/sec ±0.29% (99 runs sampled)
-  String#indexOf for params Very long string x 979,404 ops/sec ±0.40% (100 runs sampled)
-  String#indexOf for params Extremely long string x 11,266 ops/sec ±0.39% (98 runs sampled)
-  Fastest is String#indexOf for params Short string
-  +----------------+-------------------+-------------------+------------------+-----------------------+
-  |                | Short string      | Long string       | Very long string | Extremely long string |
-  +----------------+-------------------+-------------------+------------------+-----------------------+
-  | RegExp#test    | 6,543,445 ops/sec | 5,059,970 ops/sec | 950,524 ops/sec  | 11,309 ops/sec        |
-  +----------------+-------------------+-------------------+------------------+-----------------------+
-  | String#indexOf | 8,976,449 ops/sec | 6,360,103 ops/sec | 979,404 ops/sec  | 11,266 ops/sec        |
-  +----------------+-------------------+-------------------+------------------+-----------------------+
-
-*/
+// =>
+// RegExp#test for inputs Short string x 11,037,873 ops/sec ±0.57% (100 runs sampled)
+// RegExp#test for inputs Long string x 10,114,587 ops/sec ±0.42% (100 runs sampled)
+// RegExp#test for inputs Very long string x 7,534,743 ops/sec ±0.33% (101 runs sampled)
+// RegExp#test for inputs Extremely long string x 304,666 ops/sec ±0.25% (101 runs sampled)
+// String#indexOf for inputs Short string x 13,400,084 ops/sec ±0.28% (99 runs sampled)
+// String#indexOf for inputs Long string x 12,947,759 ops/sec ±0.33% (100 runs sampled)
+// String#indexOf for inputs Very long string x 8,489,440 ops/sec ±0.31% (101 runs sampled)
+// String#indexOf for inputs Extremely long string x 306,018 ops/sec ±0.26% (100 runs sampled)
+// Fastest is String#indexOf for inputs Short string
+// +----------------+--------------------+--------------------+-------------------+-----------------------+
+// |                │ Short string       │ Long string        │ Very long string  │ Extremely long string |
+// +----------------+--------------------+--------------------+-------------------+-----------------------+
+// | RegExp#test    │ 11,037,873 ops/sec │ 10,114,587 ops/sec │ 7,534,743 ops/sec │ 304,666 ops/sec       |
+// +----------------+--------------------+--------------------+-------------------+-----------------------+
+// | String#indexOf │ 13,400,084 ops/sec │ 12,947,759 ops/sec │ 8,489,440 ops/sec │ 306,018 ops/sec       |
+// +----------------+--------------------+--------------------+-------------------+-----------------------+
 ```
 
-When executed as `node ./examples/string_search.js`, the script produces output:
+## Transposed table
 
-```
-RegExp#test for params Short string x 6,543,445 ops/sec �0.48% (98 runs sampled)
-RegExp#test for params Long string x 5,059,970 ops/sec �0.28% (98 runs sampled)
-RegExp#test for params Very long string x 950,524 ops/sec �0.44% (98 runs sampled)
-RegExp#test for params Extremely long string x 11,309 ops/sec �0.42% (99 runs sampled)
-String#indexOf for params Short string x 8,976,449 ops/sec �0.34% (99 runs sampled)
-String#indexOf for params Long string x 6,360,103 ops/sec �0.29% (99 runs sampled)
-String#indexOf for params Very long string x 979,404 ops/sec �0.40% (100 runs sampled)
-String#indexOf for params Extremely long string x 11,266 ops/sec �0.39% (98 runs sampled)
-Fastest is String#indexOf for params Short string
-+----------------+-------------------+-------------------+------------------+-----------------------+
-|                | Short string      | Long string       | Very long string | Extremely long string |
-+----------------+-------------------+-------------------+------------------+-----------------------+
-| RegExp#test    | 6,543,445 ops/sec | 5,059,970 ops/sec | 950,524 ops/sec  | 11,309 ops/sec        |
-+----------------+-------------------+-------------------+------------------+-----------------------+
-| String#indexOf | 8,976,449 ops/sec | 6,360,103 ops/sec | 979,404 ops/sec  | 11,266 ops/sec        |
-+----------------+-------------------+-------------------+------------------+-----------------------+
-```
+If the Benchtable object is initialized with the `{isTransposed : true}` option (see [this example](/examples/string_search_transposed.js)), the script produces the same output but with rows and columns transposed:
 
-If the Benchtable object is initialized with the `{isTransposed : true}` option (see [this example](https://github.com/izuzak/benchtable/examples/string_search_transposed.js)), the script produces the same output but with rows and columns transposed:
+```js
+// import module
+// Import module
+var BenchTable = require('benchtable'); //require('benchtable');
 
-```
-RegExp#test for inputs Short string x 7,011,480 ops/sec �0.69% (91 runs sampled)
-RegExp#test for inputs Long string x 4,720,734 ops/sec �2.53% (91 runs sampled)
-RegExp#test for inputs Very long string x 952,009 ops/sec �0.88% (97 runs sampled)
-RegExp#test for inputs Extremely long string x 11,542 ops/sec �0.28% (98 runs sampled)
-String#indexOf for inputs Short string x 9,494,499 ops/sec �0.45% (93 runs sampled)
-String#indexOf for inputs Long string x 6,686,112 ops/sec �0.41% (101 runs sampled)
-String#indexOf for inputs Very long string x 984,418 ops/sec �1.10% (97 runs sampled)
-String#indexOf for inputs Extremely long string x 11,136 ops/sec �1.14% (97 runs sampled)
-Fastest is String#indexOf for inputs Short string
-+-----------------------+-------------------+-------------------+
-|                       | RegExp#test       | String#indexOf    |
-+-----------------------+-------------------+-------------------+
-| Short string          | 7,011,480 ops/sec | 9,494,499 ops/sec |
-+-----------------------+-------------------+-------------------+
-| Long string           | 4,720,734 ops/sec | 6,686,112 ops/sec |
-+-----------------------+-------------------+-------------------+
-| Very long string      | 952,009 ops/sec   | 984,418 ops/sec   |
-+-----------------------+-------------------+-------------------+
-| Extremely long string | 11,542 ops/sec    | 11,136 ops/sec    |
-+-----------------------+-------------------+-------------------+
+// Create benchtable suite
+var suite = new BenchTable("test", {isTransposed : true});
+
+suite
+    // Add functions for benchmarking
+    .addFunction('RegExp#test', s => /o/.test(s))
+    .addFunction('String#indexOf', s => s.indexOf('o') > -1)
+    // Add inputs
+    .addInput('Short string', ['Hello world!'])
+    .addInput('Long string', ['This is a very big string, isnt it? It is. Really. So, hello world!'])
+    .addInput('Very long string', [`This is a ${new Array(100).join("very ")} + 'big string, isnt it? It is. ${new Array(100).join("Really. ")} So, hello world!`])
+    .addInput('Extremely long string', [`This is a ${new Array(10000).join("very ")} + 'big string, isnt it? It is. ${new Array(10000).join("Really. ")} So, hello world!`])
+    // Add listeners
+    .on('cycle', event => {
+      console.log(event.target.toString());
+    })
+    .on('complete', () => {
+      console.log('Fastest is ' + suite.filter('fastest').pluck('name'));
+      console.log(suite.table.toString());
+    })
+    // Run async
+    .run({ 'async': false })
+    ;
+
+// =>
+// RegExp#test for inputs Short string x 11,139,499 ops/sec ±0.56% (97 runs sampled)
+// RegExp#test for inputs Long string x 10,370,952 ops/sec ±0.66% (97 runs sampled)
+// RegExp#test for inputs Very long string x 7,386,009 ops/sec ±0.60% (98 runs sampled)
+// RegExp#test for inputs Extremely long string x 297,936 ops/sec ±0.40% (99 runs sampled)
+// String#indexOf for inputs Short string x 12,844,042 ops/sec ±0.44% (96 runs sampled)
+// String#indexOf for inputs Long string x 12,474,178 ops/sec ±0.48% (98 runs sampled)
+// String#indexOf for inputs Very long string x 8,471,914 ops/sec ±0.36% (94 runs sampled)
+// String#indexOf for inputs Extremely long string x 301,176 ops/sec ±0.43% (93 runs sampled)
+// Fastest is String#indexOf for inputs Short string
+// +-----------------------+--------------------+--------------------+
+// |                       │ RegExp#test        │ String#indexOf     |
+// +-----------------------+--------------------+--------------------+
+// | Short string          │ 11,139,499 ops/sec │ 12,844,042 ops/sec |
+// +-----------------------+--------------------+--------------------+
+// | Long string           │ 10,370,952 ops/sec │ 12,474,178 ops/sec |
+// +-----------------------+--------------------+--------------------+
+// | Very long string      │ 7,386,009 ops/sec  │ 8,471,914 ops/sec  |
+// +-----------------------+--------------------+--------------------+
+// | Extremely long string │ 297,936 ops/sec    │ 301,176 ops/sec    |
+// +-----------------------+--------------------+--------------------+
 ```
 
 ## Contributing
@@ -213,6 +219,7 @@ Want to contribute to this project? See information [here](CONTRIBUTING.md).
 Benchtable is developed by [Ivan Zuzak](http://ivanzuzak.info) \<izuzak@gmail.com\>;.
 
 Benchtable is built with or uses many open-source projects:
+
  * [`cli-table`](https://github.com/LearnBoost/cli-table) - used for drawing ASCII tables
  * [`benchmark.js`](https://github.com/bestiejs/benchmark.js) - used for running benchmarks
  * [`colors`](https://github.com/marak/colors.js/) - used for coloring of worst and best results in tables

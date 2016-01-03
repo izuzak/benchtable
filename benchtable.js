@@ -4,10 +4,21 @@
 const Benchmark = require('benchmark');
 const Table = require('cli-table');
 
-/**
- * Table constructor.
- */
 module.exports = class BenchTable extends Benchmark.Suite {
+    /**
+     * BenchTable
+     * The `BenchTable` constructor. `BenchTable` is extended from [Benchmark.Suite](http://benchmarkjs.com/docs#Suite).
+     *
+     * @name BenchTable
+     * @function
+     * @param {String} name  A name to identify the suite.
+     * @param {String} options Options object. A special boolean option `isTransposed`
+     * is available for Benchtable–if set to `true`, the output ASCII table will be
+     * transposed: the benchmarked functions will be organized into columns, while
+     * inputs will be organized into rows. This is useful for situations where the
+     * number of inputs is large, and the number of functions is small. This option
+     * defaults to `false`.
+     */
     constructor (name, options) {
 
         super(name, options);
@@ -144,6 +155,15 @@ module.exports = class BenchTable extends Benchmark.Suite {
             }
         });
     }
+
+    /**
+     * run
+     * Runs the suite.
+     *
+     * @name run
+     * @function
+     * @param {Object} config The options object. [See `benchmark.js` API docs.](http://benchmarkjs.com/docs#Suite_prototype_run)
+     */
     run (config) {
         var mapkey, mapfun;
 
@@ -171,18 +191,45 @@ module.exports = class BenchTable extends Benchmark.Suite {
 
         Benchmark.Suite.prototype.run.call(this, config);
     }
+
+    /**
+     * addFunction
+     * Specify functions to be benchmarked.
+     * This function may be called multiple times to add multiple functions.
+     *
+     * @name run
+     * @function
+     * @param {String} name A name to identify the function.
+     * @param {Function} fun The test to benchmark.
+     * @param {Object} options The options object.
+     * @return {BenchTable} The `BenchTable` instance.
+     */
     addFunction (name, fun, options) {
         this._functions.push(fun);
         this._functionNames.push(name);
         this._functionOptions.push(options || {});
         this._results[name] = [];
-
         return this;
     }
+
+    /**
+     * addInput
+     * Specify inputs for functions.
+     * This function may be called multiple times to add multiple inputs.
+     *
+     * @name addInput
+     * @function
+     * @param {String} name A name to identify the input.
+     * @param {Array} input The array containing arguments that will be
+     * passed to each benchmarked function. Therefore, the number of
+     * elements in the `input` array should match the number of arguments of
+     * each specified function (i.e. the array will be "unpacked" when
+     * invoking functions, they will not receive a single array argument).
+     * @return {BenchTable} The `BenchTable` instance.
+     */
     addInput (name, input) {
         this._inputs.push(input);
         this._inputNames.push(name);
-
         return this;
     }
 }

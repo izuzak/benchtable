@@ -189,7 +189,7 @@ module.exports = class BenchTable extends Benchmark.Suite {
 
         this._counter = this._functions.length * this._inputs.length;
 
-        Benchmark.Suite.prototype.run.call(this, config);
+        super.run(config);
     }
 
     /**

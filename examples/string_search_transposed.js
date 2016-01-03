@@ -23,7 +23,7 @@ suite
       console.log(suite.table.toString());
     })
     // Run async
-    .run({ 'async': false })
+    .run({ async: false })
     ;
 
 // =>

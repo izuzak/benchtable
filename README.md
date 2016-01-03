@@ -11,7 +11,7 @@ This is useful for situations when you are:
 Benchtable is not a new JavaScript benchmarking framework -- it extends the already excellent [benchmark.js](https://github.com/bestiejs/benchmark.js) framework.
 Benchmarks are executed using benchmark.js and displayed using [cli-table](https://github.com/LearnBoost/cli-table).
 
-![Screenshot](https://raw.github.com/izuzak/benchtable/master/screenshot.png)
+![Screenshot](/screenshot.png)
 
 ## Features
 
@@ -133,7 +133,7 @@ suite
       console.log(suite.table.toString());
     })
     // Run async
-    .run({ 'async': false })
+    .run({ async: false })
     ;
 
 // =>
@@ -185,7 +185,7 @@ suite
       console.log(suite.table.toString());
     })
     // Run async
-    .run({ 'async': false })
+    .run({ async: false })
     ;
 
 // =>
@@ -226,4 +226,4 @@ Benchtable is built with or uses many open-source projects:
 
 ## License
 
-Licensed under the [Apache 2.0 License](https://github.com/izuzak/benchtable/blob/master/LICENSE.md).
+Licensed under the [Apache 2.0 License](/LICENSE.md).

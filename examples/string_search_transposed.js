@@ -19,7 +19,7 @@ suite
       console.log(event.target.toString());
     })
     .on('complete', () => {
-      console.log('Fastest is ' + suite.filter('fastest').pluck('name'));
+      console.log('Fastest is ' + suite.filter('fastest').map('name'));
       console.log(suite.table.toString());
     })
     // Run async

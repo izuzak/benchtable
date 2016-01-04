@@ -56,8 +56,7 @@ Runs the suite.
 #### Params
 - **Object** `config`: The options object. [See `benchmark.js` API docs.](http://benchmarkjs.com/docs#Suite_prototype_run)
 
-### `run(name, fun, options)`
-addFunction
+### `addFunction(name, fun, options)`
 Specify functions to be benchmarked.
 This function may be called multiple times to add multiple functions.
 

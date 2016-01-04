@@ -210,7 +210,7 @@ module.exports = class BenchTable extends Benchmark.Suite {
      * Specify functions to be benchmarked.
      * This function may be called multiple times to add multiple functions.
      *
-     * @name run
+     * @name addFunction
      * @function
      * @param {String} name A name to identify the function.
      * @param {Function} fun The test to benchmark.

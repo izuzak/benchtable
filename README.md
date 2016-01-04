@@ -196,7 +196,7 @@ Benchtable is built with or uses many open-source projects:
 
  * [`cli-table`](https://github.com/LearnBoost/cli-table) - used for drawing ASCII tables
  * [`benchmark.js`](https://github.com/bestiejs/benchmark.js) - used for running benchmarks
- * [`colors`](https://github.com/marak/colors.js/) - used for coloring of worst and best results in tables
+ * [`color-it`](https://github.com/IonicaBizau/node-color-it/) - used for coloring of worst and best results in tables
 
 ## License
 

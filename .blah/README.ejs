@@ -14,7 +14,7 @@
             )
           , 'utf-8'
         )
-        .replace('../', projectName)
+        .replace(/..\//g, projectName)
         .trimRight()
     }
 %>
@@ -95,7 +95,30 @@ Also available in the [examples directory](/examples/string_search.js).
 If the Benchtable object is initialized with the `{isTransposed : true}` option (see [this example](/examples/string_search_transposed.js)), the script produces the same output but with rows and columns transposed:
 
 ```js
-<%- getExample("string_search_transposed.js") %>
+...
+var suite = new BenchTable('test', {isTransposed : true});
+...
+// =>
+// RegExp#test for inputs Short string x 11,139,499 ops/sec ±0.56% (97 runs sampled)
+// RegExp#test for inputs Long string x 10,370,952 ops/sec ±0.66% (97 runs sampled)
+// RegExp#test for inputs Very long string x 7,386,009 ops/sec ±0.60% (98 runs sampled)
+// RegExp#test for inputs Extremely long string x 297,936 ops/sec ±0.40% (99 runs sampled)
+// String#indexOf for inputs Short string x 12,844,042 ops/sec ±0.44% (96 runs sampled)
+// String#indexOf for inputs Long string x 12,474,178 ops/sec ±0.48% (98 runs sampled)
+// String#indexOf for inputs Very long string x 8,471,914 ops/sec ±0.36% (94 runs sampled)
+// String#indexOf for inputs Extremely long string x 301,176 ops/sec ±0.43% (93 runs sampled)
+// Fastest is String#indexOf for inputs Short string
+// +-----------------------+--------------------+--------------------+
+// |                       │ RegExp#test        │ String#indexOf     |
+// +-----------------------+--------------------+--------------------+
+// | Short string          │ 11,139,499 ops/sec │ 12,844,042 ops/sec |
+// +-----------------------+--------------------+--------------------+
+// | Long string           │ 10,370,952 ops/sec │ 12,474,178 ops/sec |
+// +-----------------------+--------------------+--------------------+
+// | Very long string      │ 7,386,009 ops/sec  │ 8,471,914 ops/sec  |
+// +-----------------------+--------------------+--------------------+
+// | Extremely long string │ 297,936 ops/sec    │ 301,176 ops/sec    |
+// +-----------------------+--------------------+--------------------+
 ```
 
 ## Contributing

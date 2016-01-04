@@ -1,5 +1,5 @@
-// Import module
-var BenchTable = require('../'); //require('benchtable');
+// Import the ../ module
+var BenchTable = require('../');
 
 // Create benchtable suite
 var suite = new BenchTable();
@@ -11,8 +11,8 @@ suite
     // Add inputs
     .addInput('Short string', ['Hello world!'])
     .addInput('Long string', ['This is a very big string, isnt it? It is. Really. So, hello world!'])
-    .addInput('Very long string', [`This is a ${new Array(100).join("very ")} + 'big string, isnt it? It is. ${new Array(100).join("Really. ")} So, hello world!`])
-    .addInput('Extremely long string', [`This is a ${new Array(10000).join("very ")} + 'big string, isnt it? It is. ${new Array(10000).join("Really. ")} So, hello world!`])
+    .addInput('Very long string', [`This is a ${new Array(100).join('very ')} + 'big string, isnt it? It is. ${new Array(100).join('Really. ')} So, hello world!`])
+    .addInput('Extremely long string', [`This is a ${new Array(10000).join('very ')} + 'big string, isnt it? It is. ${new Array(10000).join('Really. ')} So, hello world!`])
     // Add listeners
     .on('cycle', event => {
       console.log(event.target.toString());

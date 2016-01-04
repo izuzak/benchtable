@@ -22,8 +22,8 @@
     "javascript"
   ],
   "dependencies": {
-    "benchmark": "~1.0.0",
-    "cli-table": "=0.3.0"
+    "benchmark": "^2.0.0",
+    "cli-table": "^0.3.1"
   },
   "engines": {
     "node": ">=4.0.0"

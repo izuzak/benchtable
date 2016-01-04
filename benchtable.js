@@ -19,7 +19,7 @@ module.exports = class BenchTable extends Benchmark.Suite {
      * number of inputs is large, and the number of functions is small. This option
      * defaults to `false`.
      */
-    constructor (name, options) {
+    constructor(name, options) {
 
         super(name, options);
 
@@ -63,12 +63,12 @@ module.exports = class BenchTable extends Benchmark.Suite {
             }
 
             // compute best and worst results for each input
-            for (i=0; i<this._inputs.length; i++) {
+            for (i = 0; i < this._inputs.length; i++) {
                 worst_idx = 0, best_idx = 0;
                 best = this._results[this._functionNames[best_idx]][i];
                 worst = this._results[this._functionNames[worst_idx]][i];
 
-                for (j=0; j<this._functions.length; j++) {
+                for (j = 0; j < this._functions.length; j++) {
                     curr = this._results[this._functionNames[j]][i];
 
                     if (curr.hz <= worst.hz) {
@@ -100,22 +100,31 @@ module.exports = class BenchTable extends Benchmark.Suite {
             this.table = new Table({
                 head: headers,
                 chars: {
-                    'top': '-', 'top-mid': '+', 'top-left': '+', 'top-right': '+',
-                    'bottom': '-', 'bottom-mid': '+', 'bottom-left': '+', 'bottom-right': '+',
-                    'left': '|', 'left-mid': '+',
-                    'mid': '-', 'mid-mid': '+',
-                    'right': '|', 'right-mid': '+'
+                    'top': '-',
+                    'top-mid': '+',
+                    'top-left': '+',
+                    'top-right': '+',
+                    'bottom': '-',
+                    'bottom-mid': '+',
+                    'bottom-left': '+',
+                    'bottom-right': '+',
+                    'left': '|',
+                    'left-mid': '+',
+                    'mid': '-',
+                    'mid-mid': '+',
+                    'right': '|',
+                    'right-mid': '+'
                 },
                 truncate: '…'
             });
 
             if (!this._transposed) {
-                for (i=0; i<this._functions.length; i++) {
+                for (i = 0; i < this._functions.length; i++) {
                     item = {};
                     funName = this._functionNames[i];
                     item[funName] = [];
 
-                    for (j=0; j<this._results[funName].length; j++) {
+                    for (j = 0; j < this._results[funName].length; j++) {
                         curr = this._results[funName][j];
                         item[funName].push(toTableStr(curr));
 
@@ -131,12 +140,12 @@ module.exports = class BenchTable extends Benchmark.Suite {
                     this.table.push(item);
                 }
             } else {
-                for (i=0; i<this._inputs.length; i++) {
+                for (i = 0; i < this._inputs.length; i++) {
                     item = {};
                     inputName = this._inputNames[i];
                     item[inputName] = [];
 
-                    for (j=0; j<this._functionNames.length; j++) {
+                    for (j = 0; j < this._functionNames.length; j++) {
                         funName = this._functionNames[j];
                         curr = this._results[funName][i];
                         item[inputName].push(toTableStr(curr));
@@ -164,7 +173,7 @@ module.exports = class BenchTable extends Benchmark.Suite {
      * @function
      * @param {Object} config The options object. [See `benchmark.js` API docs.](http://benchmarkjs.com/docs#Suite_prototype_run)
      */
-    run (config) {
+    run(config) {
         var mapkey, mapfun;
 
         let createBenchmarkFunction = (fun, options, input) => {
@@ -178,12 +187,15 @@ module.exports = class BenchTable extends Benchmark.Suite {
             };
         }
 
-        for (var i=0; i<this._functions.length; i++) {
-            for (var j=0; j<this._inputs.length; j++) {
+        for (var i = 0; i < this._functions.length; i++) {
+            for (var j = 0; j < this._inputs.length; j++) {
                 mapkey = this._functionNames[i] + " for inputs " + this._inputNames[j];
                 mapfun = createBenchmarkFunction(this._functions[i], this._functionOptions[i], this._inputs[j]);
                 this.add(mapkey, mapfun, this._functionOptions[i]);
-                this._mappings[mapkey] = { funcIdx : i, inputIdx : j };
+                this._mappings[mapkey] = {
+                    funcIdx: i,
+                    inputIdx: j
+                };
             }
         }
 
@@ -204,7 +216,7 @@ module.exports = class BenchTable extends Benchmark.Suite {
      * @param {Object} options The options object.
      * @return {BenchTable} The `BenchTable` instance.
      */
-    addFunction (name, fun, options) {
+    addFunction(name, fun, options) {
         this._functions.push(fun);
         this._functionNames.push(name);
         this._functionOptions.push(options || {});
@@ -227,7 +239,7 @@ module.exports = class BenchTable extends Benchmark.Suite {
      * invoking functions, they will not receive a single array argument).
      * @return {BenchTable} The `BenchTable` instance.
      */
-    addInput (name, input) {
+    addInput(name, input) {
         this._inputs.push(input);
         this._inputNames.push(name);
         return this;

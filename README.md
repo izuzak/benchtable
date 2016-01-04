@@ -215,7 +215,7 @@ suite
 Want to contribute to this project? See information [here](CONTRIBUTING.md).
 
 ## Credits
-Benchtable is developed by [Ivan Zuzak](http://ivanzuzak.info) \<izuzak@gmail.com\>;.
+Benchtable is developed by [Ivan Zuzak](http://ivanzuzak.info) \<izuzak@gmail.com\>.
 
 Benchtable is built with or uses many open-source projects:
 

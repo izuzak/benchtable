@@ -3,6 +3,7 @@
 // Module dependencies.
 const Benchmark = require('benchmark');
 const Table = require('cli-table');
+const colorIt = require('color-it');
 
 module.exports = class BenchTable extends Benchmark.Suite {
     /**
@@ -130,9 +131,9 @@ module.exports = class BenchTable extends Benchmark.Suite {
 
                         if (this._functions.length > 1) {
                             if (curr._isWorst) {
-                                item[funName][j] = item[funName][j].red;
+                                item[funName][j] = colorIt(item[funName][j]).red().toString();
                             } else if (curr._isBest) {
-                                item[funName][j] = item[funName][j].green;
+                                item[funName][j] = colorIt(item[funName][j]).green().toString();
                             }
                         }
                     }
@@ -152,9 +153,9 @@ module.exports = class BenchTable extends Benchmark.Suite {
 
                         if (this._functions.length > 1) {
                             if (curr._isWorst) {
-                                item[inputName][j] = item[inputName][j].red;
+                                item[inputName][j] = colorIt(item[inputName][j]).red().toString();
                             } else if (curr._isBest) {
-                                item[inputName][j] = item[inputName][j].green;
+                                item[inputName][j] = colorIt(item[inputName][j]).green().toString();
                             }
                         }
                     }

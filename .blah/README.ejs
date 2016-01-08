@@ -1,3 +1,25 @@
+<%
+    var projectRoot = _.path
+      , projectName = _.pack.name
+      , fs = require('fs')
+      , path = require('path')
+      ;
+
+    function getExample (file) {
+        return fs.readFileSync(
+            path.join(
+                projectRoot
+              , 'examples'
+              , file
+            )
+          , 'utf-8'
+        )
+        .replace(/\.\.\//g, projectName)
+        .trimRight()
+    }
+%>
+
+
 # Benchtable
 
 Benchtable is a NodeJS module which provides an easy way to run performance tests for a set of JavaScript functions on a set of inputs, and display the evaluation results as an ASCII table.
@@ -23,7 +45,7 @@ Benchmarks are executed using benchmark.js and displayed using [cli-table](https
 ## Installation
 
 ```sh
-npm i --save benchtable
+npm i --save <%- _.pack.name %>
 ```
 
 ## API and usage
@@ -36,51 +58,8 @@ indeed be benchmarked with Benchtable–their results will not be shown in the r
 
 Please use the `BenchTable`'s `addFunction` and `addInput` methods for specifying BenchTable benchmarks, as shown below.
 
-### `BenchTable(name, options)`
-The `BenchTable` constructor. `BenchTable` is extended from [Benchmark.Suite](http://benchmarkjs.com/docs#Suite).
-
-#### Params
-- **String** `name`: A name to identify the suite.
-- **String** `options`: Options object. A special boolean option `isTransposed` is available for Benchtable–if set to `true`, the output ASCII table will be
-transposed: the benchmarked functions will be organized into columns, while
-inputs will be organized into rows. This is useful for situations where the
-number of inputs is large, and the number of functions is small. This option
-defaults to `false`.
-
-Use the 'cycle' event to store results and build a table
-after all BenchTable functions are evaluated for all inputs.
-
-### `run(config)`
-Runs the suite.
-
-#### Params
-- **Object** `config`: The options object. [See `benchmark.js` API docs.](http://benchmarkjs.com/docs#Suite_prototype_run)
-
-### `addFunction(name, fun, options)`
-Specify functions to be benchmarked.
-This function may be called multiple times to add multiple functions.
-
-#### Params
-- **String** `name`: A name to identify the function.
-- **Function** `fun`: The test to benchmark.
-- **Object** `options`: The options object.
-
-#### Return
-- **BenchTable** The `BenchTable` instance.
-
-### `addInput(name, input)`
-Specify inputs for functions.
-This function may be called multiple times to add multiple inputs.
-
-#### Params
-- **String** `name`: A name to identify the input.
-- **Array** `input`: The array containing arguments that will be passed to each benchmarked function. Therefore, the number of
-elements in the `input` array should match the number of arguments of
-each specified function (i.e. the array will be "unpacked" when
-invoking functions, they will not receive a single array argument).
-
-#### Return
-- **BenchTable** The `BenchTable` instance.
+<% docs = docs.split("\n").slice(3).join("\n"); %>
+<%- docs %>
 
 ### Events
 
@@ -108,50 +87,7 @@ Also available in the [examples directory](/examples/string_search.js).
 ### Default behavior
 
 ```js
-// Import the benchtable module
-var BenchTable = require('benchtable');
-
-// Create benchtable suite
-var suite = new BenchTable();
-
-suite
-    // Add functions for benchmarking
-    .addFunction('RegExp#test', s => /o/.test(s))
-    .addFunction('String#indexOf', s => s.indexOf('o') > -1)
-    // Add inputs
-    .addInput('Short string', ['Hello world!'])
-    .addInput('Long string', ['This is a very big string, isnt it? It is. Really. So, hello world!'])
-    .addInput('Very long string', [`This is a ${new Array(100).join('very ')} + 'big string, isnt it? It is. ${new Array(100).join('Really. ')} So, hello world!`])
-    .addInput('Extremely long string', [`This is a ${new Array(10000).join('very ')} + 'big string, isnt it? It is. ${new Array(10000).join('Really. ')} So, hello world!`])
-    // Add listeners
-    .on('cycle', event => {
-      console.log(event.target.toString());
-    })
-    .on('complete', () => {
-      console.log('Fastest is ' + suite.filter('fastest').map('name'));
-      console.log(suite.table.toString());
-    })
-    // Run async
-    .run({ async: false })
-    ;
-
-// =>
-// RegExp#test for inputs Short string x 11,037,873 ops/sec ±0.57% (100 runs sampled)
-// RegExp#test for inputs Long string x 10,114,587 ops/sec ±0.42% (100 runs sampled)
-// RegExp#test for inputs Very long string x 7,534,743 ops/sec ±0.33% (101 runs sampled)
-// RegExp#test for inputs Extremely long string x 304,666 ops/sec ±0.25% (101 runs sampled)
-// String#indexOf for inputs Short string x 13,400,084 ops/sec ±0.28% (99 runs sampled)
-// String#indexOf for inputs Long string x 12,947,759 ops/sec ±0.33% (100 runs sampled)
-// String#indexOf for inputs Very long string x 8,489,440 ops/sec ±0.31% (101 runs sampled)
-// String#indexOf for inputs Extremely long string x 306,018 ops/sec ±0.26% (100 runs sampled)
-// Fastest is String#indexOf for inputs Short string
-// +----------------+--------------------+--------------------+-------------------+-----------------------+
-// |                │ Short string       │ Long string        │ Very long string  │ Extremely long string |
-// +----------------+--------------------+--------------------+-------------------+-----------------------+
-// | RegExp#test    │ 11,037,873 ops/sec │ 10,114,587 ops/sec │ 7,534,743 ops/sec │ 304,666 ops/sec       |
-// +----------------+--------------------+--------------------+-------------------+-----------------------+
-// | String#indexOf │ 13,400,084 ops/sec │ 12,947,759 ops/sec │ 8,489,440 ops/sec │ 306,018 ops/sec       |
-// +----------------+--------------------+--------------------+-------------------+-----------------------+
+<%- getExample("string_search.js") %>
 ```
 
 ## Transposed table
